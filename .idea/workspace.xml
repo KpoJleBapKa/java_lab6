@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="979e94fc-1a59-4c63-a645-ac544aa6e9ed" name="Changes" comment="v0.3 repairing">
+    <list default="true" id="979e94fc-1a59-4c63-a645-ac544aa6e9ed" name="Changes" comment="v1.0 release">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/kroll/Cinema.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kroll/Cinema.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/kroll/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kroll/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/kroll/AppTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kroll/CinemaTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,12 +70,21 @@
       <option name="project" value="LOCAL" />
       <updated>1700648234527</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="v1.0 release">
+      <option name="closed" value="true" />
+      <created>1700648619027</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1700648619027</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="v0.2 adding main func" />
     <MESSAGE value="v0.3 repairing" />
-    <option name="LAST_COMMIT_MESSAGE" value="v0.3 repairing" />
+    <MESSAGE value="v1.0 release" />
+    <option name="LAST_COMMIT_MESSAGE" value="v1.0 release" />
   </component>
 </project>

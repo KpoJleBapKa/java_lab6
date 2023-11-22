@@ -1,12 +1,13 @@
 package com.kroll;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
+    private static Cinema cinema;
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Cinema cinema = new Cinema(5, 10, 20);
+        cinema = new Cinema(5, 10, 20);
         int choice;
 
         do {
@@ -21,16 +22,16 @@ public class Main {
                     cinema.printSeatingArrangement(hallNumber);
                     break;
                 case 2:
-                    bookSeats(scanner, cinema);
+                    bookSeats(scanner);
                     break;
                 case 3:
-                    cancelBooking(scanner, cinema);
+                    cancelBooking(scanner);
                     break;
                 case 4:
-                    checkAvailability(scanner, cinema);
+                    checkAvailability(scanner);
                     break;
                 case 5:
-                    autoBookSeats(scanner, cinema);
+                    autoBook(scanner);
                     break;
             }
         } while (choice != 6);
@@ -45,7 +46,7 @@ public class Main {
         System.out.println("6. Вийти");
     }
 
-    private static void bookSeats(Scanner scanner, Cinema cinema) {
+    private static void bookSeats(Scanner scanner) {
         System.out.println("Введіть номер залу:");
         int hallNumber = scanner.nextInt();
         System.out.println("Введіть номер ряду:");
@@ -53,14 +54,15 @@ public class Main {
         System.out.println("Введіть номери місць (розділені пробілами):");
         scanner.nextLine();
         String[] seatsArray = scanner.nextLine().split(" ");
-        int[] seats = Arrays.stream(seatsArray)
-                .mapToInt(Integer::parseInt)
-                .toArray();
+        int[] seats = new int[seatsArray.length];
+        for (int i = 0; i < seatsArray.length; i++) {
+            seats[i] = Integer.parseInt(seatsArray[i]);
+        }
 
         cinema.bookSeats(hallNumber, row, seats);
     }
 
-    private static void cancelBooking(Scanner scanner, Cinema cinema) {
+    private static void cancelBooking(Scanner scanner) {
         System.out.println("Введіть номер залу:");
         int hallNumber = scanner.nextInt();
         System.out.println("Введіть номер ряду:");
@@ -69,15 +71,17 @@ public class Main {
         System.out.println("Введіть номери місць (розділені пробілами):");
         String[] seatsArray = scanner.nextLine().split(" ");
 
-        int[] seats = Arrays.stream(seatsArray)
-                .filter(s -> !s.isEmpty())
-                .mapToInt(Integer::parseInt)
-                .toArray();
+        int[] seats = new int[seatsArray.length];
+        for (int i = 0; i < seatsArray.length; i++) {
+            if (!seatsArray[i].isEmpty()) {
+                seats[i] = Integer.parseInt(seatsArray[i]);
+            }
+        }
 
         cinema.cancelBooking(hallNumber, row, seats);
     }
 
-    private static void checkAvailability(Scanner scanner, Cinema cinema) {
+    private static void checkAvailability(Scanner scanner) {
         System.out.println("Введіть номер залу:");
         int hallNumber = scanner.nextInt();
         System.out.println("Введіть кількість місць:");
@@ -91,19 +95,12 @@ public class Main {
         }
     }
 
-    private static void autoBookSeats(Scanner scanner, Cinema cinema) {
+    private static void autoBook(Scanner scanner) {
         System.out.println("Введіть номер залу:");
         int hallNumber = scanner.nextInt();
         System.out.println("Введіть кількість місць для автоматичного бронювання:");
         int numSeats = scanner.nextInt();
 
-        int[] bestAvailableSeats = cinema.findBestAvailable(hallNumber, numSeats);
-
-        if (bestAvailableSeats != null) {
-            cinema.bookSeats(hallNumber, bestAvailableSeats[0], Arrays.copyOfRange(bestAvailableSeats, 1, bestAvailableSeats.length));
-            System.out.println("Місця успішно заброньовані!");
-        } else {
-            System.out.println("Не вдалося знайти достатньо вільних місць.");
-        }
+        cinema.autoBook(hallNumber, numSeats);
     }
 }
