@@ -1,6 +1,6 @@
 package com.kroll;
 
-
+import java.util.Arrays;
 public class Cinema {
     private int[][][] seats;
 
@@ -68,5 +68,37 @@ public class Cinema {
 
     public int[][][] getSeats() {
         return seats;
+    }
+
+    public int[] findBestAvailable(int hallNumber, int numSeats) {
+        for (int i = 0; i < seats[hallNumber - 1].length; i++) {
+            int consecutiveEmptySeats = 0;
+            for (int j = 0; j < seats[hallNumber - 1][i].length; j++) {
+                if (seats[hallNumber - 1][i][j] == 0) {
+                    consecutiveEmptySeats++;
+                    if (consecutiveEmptySeats == numSeats) {
+                        int[] bestAvailableSeats = new int[numSeats + 1];
+                        bestAvailableSeats[0] = i + 1; // ряд
+                        for (int k = 0; k < numSeats; k++) {
+                            bestAvailableSeats[k + 1] = j - k + 1; // номер місця
+                        }
+                        return bestAvailableSeats;
+                    }
+                } else {
+                    consecutiveEmptySeats = 0;
+                }
+            }
+        }
+        return null;
+    }
+
+    public void autoBook(int hallNumber, int numSeats) {
+        int[] bestAvailableSeats = findBestAvailable(hallNumber, numSeats);
+        if (bestAvailableSeats != null) {
+            bookSeats(hallNumber, bestAvailableSeats[0], Arrays.copyOfRange(bestAvailableSeats, 1, bestAvailableSeats.length));
+            System.out.println("Місця успішно заброньовані!");
+        } else {
+            System.out.println("Не вдалося знайти достатньо вільних місць.");
+        }
     }
 }
