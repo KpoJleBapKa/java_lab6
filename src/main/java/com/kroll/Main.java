@@ -4,84 +4,92 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Cinema cinema = new Cinema(1, 10, 20);
         Scanner scanner = new Scanner(System.in);
+        Cinema cinema = new Cinema(5, 10, 20);
+        int choice;
 
-        while (true) {
-            System.out.println("\nОберіть опцію:");
-            System.out.println("1. Вивести схему розміщення місць");
-            System.out.println("2. Забронювати місце");
-            System.out.println("3. Скасувати бронювання");
-            System.out.println("4. Перевірити доступність місць");
-            System.out.println("5. Автоматичне бронювання");
-            System.out.println("6. Вийти");
+        do {
+            displayMenu();
+            System.out.println("Оберіть опцію:");
+            choice = scanner.nextInt();
 
-            int option = scanner.nextInt();
-
-            switch (option) {
+            switch (choice) {
                 case 1:
-                    cinema.displaySeatingArrangement(1);
+                    System.out.println("Введіть номер залу:");
+                    int hallNumber = scanner.nextInt();
+                    cinema.printSeatingArrangement(hallNumber);
                     break;
                 case 2:
-                    bookSeats(cinema, scanner);
+                    bookSeats(scanner, cinema);
                     break;
                 case 3:
-                    cancelBooking(cinema, scanner);
+                    cancelBooking(scanner, cinema);
                     break;
                 case 4:
-                    checkAvailability(cinema, scanner);
+                    checkAvailability(scanner, cinema);
                     break;
-                case 5:
-                    autoBook(cinema, scanner);
-                    break;
-                case 6:
-                    System.out.println("Дякуємо за користування!");
-                    System.exit(0);
-                default:
-                    System.out.println("Невірна опція. Спробуйте ще раз.");
+
+            }
+        } while (choice != 6);
+    }
+
+    private static void displayMenu() {
+        System.out.println("1. Вивести схему розміщення місць");
+        System.out.println("2. Забронювати місце");
+        System.out.println("3. Скасувати бронювання");
+        System.out.println("4. Перевірити доступність місць");
+        System.out.println("5. Автоматичне бронювання");
+        System.out.println("6. Вийти");
+    }
+
+    private static void bookSeats(Scanner scanner, Cinema cinema) {
+        System.out.println("Введіть номер залу:");
+        int hallNumber = scanner.nextInt();
+        System.out.println("Введіть номер ряду:");
+        int row = scanner.nextInt();
+        System.out.println("Введіть номери місць (розділені пробілами):");
+        scanner.nextLine();
+        String[] seatsArray = scanner.nextLine().split(" ");
+        int[] seats = new int[seatsArray.length];
+        for (int i = 0; i < seatsArray.length; i++) {
+            seats[i] = Integer.parseInt(seatsArray[i]);
+        }
+
+        cinema.bookSeats(hallNumber, row, seats);
+    }
+
+
+    private static void cancelBooking(Scanner scanner, Cinema cinema) {
+        System.out.println("Введіть номер залу:");
+        int hallNumber = scanner.nextInt();
+        System.out.println("Введіть номер ряду:");
+        int row = scanner.nextInt();
+        scanner.nextLine();  // Додайте цей рядок, щоб позбавитися відповіді Enter
+        System.out.println("Введіть номери місць (розділені пробілами):");
+        String[] seatsArray = scanner.nextLine().split(" ");
+
+        int[] seats = new int[seatsArray.length];
+        for (int i = 0; i < seatsArray.length; i++) {
+            if (!seatsArray[i].isEmpty()) {
+                seats[i] = Integer.parseInt(seatsArray[i]);
             }
         }
+
+        cinema.cancelBooking(hallNumber, row, seats);
     }
 
-    private static void bookSeats(Cinema cinema, Scanner scanner) {
-        System.out.print("Введіть номер ряду: ");
-        int row = scanner.nextInt();
-        System.out.print("Введіть номери місць (розділені пробілами): ");
-        String seatsInput = scanner.nextLine(); // Виправлення для зчитування рядка після введення кількості місць
-        String[] seatStrings = seatsInput.split(" ");
-        int[] seats = new int[seatStrings.length];
-        for (int i = 0; i < seatStrings.length; i++) {
-            seats[i] = Integer.parseInt(seatStrings[i]);
-        }
 
-        cinema.bookSeats(1, row, seats);
-    }
-
-    private static void cancelBooking(Cinema cinema, Scanner scanner) {
-        System.out.print("Введіть номер ряду: ");
-        int row = scanner.nextInt();
-        System.out.print("Введіть номери місць (розділені пробілами): ");
-        String seatsInput = scanner.nextLine(); // Виправлення для зчитування рядка після введення кількості місць
-        String[] seatStrings = seatsInput.split(" ");
-        int[] seats = new int[seatStrings.length];
-        for (int i = 0; i < seatStrings.length; i++) {
-            seats[i] = Integer.parseInt(seatStrings[i]);
-        }
-
-        cinema.cancelBooking(1, row, seats);
-    }
-
-    private static void checkAvailability(Cinema cinema, Scanner scanner) {
-        System.out.print("Введіть кількість місць: ");
+    private static void checkAvailability(Scanner scanner, Cinema cinema) {
+        System.out.println("Введіть номер залу:");
+        int hallNumber = scanner.nextInt();
+        System.out.println("Введіть кількість місць:");
         int numSeats = scanner.nextInt();
 
-        cinema.checkAvailability(1, numSeats);
-    }
-
-    private static void autoBook(Cinema cinema, Scanner scanner) {
-        System.out.print("Введіть кількість місць: ");
-        int numSeats = scanner.nextInt();
-
-        cinema.autoBook(1, numSeats);
+        boolean isAvailable = cinema.checkAvailability(hallNumber, numSeats);
+        if (isAvailable) {
+            System.out.println("Доступно");
+        } else {
+            System.out.println("Не доступно");
+        }
     }
 }
